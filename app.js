@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
+const InitiateMongoServer = require("./config/db")
+
+
 
 const adminRoutes = require("./routes/adminRoute");
 const teacherRoute = require("./routes/teacherRoute");
@@ -37,6 +40,11 @@ app.use(function (err, req, res, next) {
   res.send(err);
 });
 
-app.listen(PORT, () => {
-  console.log("LISTENING TO THER SERVER");
-});
+
+InitiateMongoServer().then(() => {
+  app.listen(PORT, () => {
+    console.log("LISTENING TO THER SERVER");
+  });
+})
+
+
