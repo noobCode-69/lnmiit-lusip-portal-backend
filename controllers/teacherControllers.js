@@ -58,6 +58,7 @@ const reviewApplicationController = async (req, res, next) => {
     }
     response.responseStatus = responseStatus
     await response.save();
+    console.log(response);
     res.send({msg : "response updated successfully"})
   } catch (e) {
     console.error(e);
