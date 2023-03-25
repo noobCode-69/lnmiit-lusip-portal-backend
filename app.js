@@ -2,12 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
-const InitiateMongoServer = require("./config/db.config")
-const adminRoutes = require("./routes/adminRoute");
-const teacherRoute = require("./routes/teacherRoute");
-const studentRoute = require("./routes/studentRoute");
-const usersRoute = require("./routes/usersRoute");
-const generalRoute = require("./routes/generalRoute");
+const InitiateMongoServer = require("./src/config/db.config")
+const adminRoutes = require("./src/routes/adminRoute");
+const teacherRoute = require("./src/routes/teacherRoute");
+const studentRoute = require("./src/routes/studentRoute");
+const usersRoute = require("./src/routes/usersRoute");
+const generalRoute = require("./src/routes/generalRoute");
 
 const PORT = 3000;
 const app = express();
