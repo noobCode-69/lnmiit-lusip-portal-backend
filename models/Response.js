@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
-const schemas = require("../utils/schemas");
-
-
+const schemas = require("../config/schemas.config");
 
 const ResponseSchema = mongoose.Schema({
   studentID : {

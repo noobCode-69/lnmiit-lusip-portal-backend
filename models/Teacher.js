@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const departments = require("../utils/departments");
-const schemas = require("../utils/schemas");
+const departments = require("../config/departments.config");
+const schemas = require("../config/schemas.config");
 
 const TeacherSchema = mongoose.Schema({
   name : {

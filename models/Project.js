@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const schemas = require("../utils/schemas");
-const years = require("../utils/years")
+const schemas = require("../config/schemas.config");
+const years = require("../config/years.config")
 
 const ProjectSchema = mongoose.Schema({
   name : {
