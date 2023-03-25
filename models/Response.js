@@ -9,7 +9,6 @@ const ResponseSchema = mongoose.Schema({
     type : mongoose.Schema.Types.ObjectId,  
     ref : schemas.STUDENTS
   },
-
   projectID : {
     type : mongoose.Schema.Types.ObjectId,  
     ref : schemas.PROJECTS
@@ -20,7 +19,6 @@ const ResponseSchema = mongoose.Schema({
     required : true,
     default : false
   }
-
 });
 
 module.exports = mongoose.model("responses", ResponseSchema);

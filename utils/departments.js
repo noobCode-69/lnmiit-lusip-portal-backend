@@ -1,8 +1,11 @@
 
 
 module.exports = {
-    ECE : "Electronics and Communication Engineering",
-    CSE : "Computer Science Engineering",
-    CCE : "Computer and Communication Engineering",
-    ME : "Mechanical Engineering"
+    ECE : "ECE",
+    CSE : "CSE",
+    CCE : "CCE",
+    MME : "MME",
+    HSS : "HSS",
+    MATHS : "Maths",
+    PHYSICS : "Physics"
 }
