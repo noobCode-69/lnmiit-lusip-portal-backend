@@ -1,8 +1,5 @@
 const Project = require("../models/Project")
 const Response = require("../models/Response")
-
-
-
 const addProjectController = async (req, res, next) => {
   const { name, description , teacherId , modeOfExecution , validYear, validBranch , prerequists  } = req.body;
   try {
@@ -16,7 +13,7 @@ const addProjectController = async (req, res, next) => {
       })
     }
     project = new Project({
-      name, description , teacherId, modeOfExecution , validYear , validBranch
+      name, description , teacherId, modeOfExecution , validYear , validBranch , prerequists
     });
     let projectData = await project.save();
     res.send({msg : "project saved successfully"})
@@ -29,18 +26,15 @@ const addProjectController = async (req, res, next) => {
 };
 
 const deleteProjectController = async (req, res, next) => {
-  const { name , projectId} = req.body;
+  const {  projectId} = req.body;
   try {
-    let project = await Project.findOne({
-      name,
-      projectId
-    });
+    let project = await Project.findById(projectId);
     if(!project) {
       return res.status(400).json({
         message : "project does not  exist"
       })
     }
-    await project.remove();
+    await project.deleteOne();
     res.send({msg : "project saved successfully"})
   } catch (e) {
     console.error(e);
@@ -51,25 +45,21 @@ const deleteProjectController = async (req, res, next) => {
 };
 
 const reviewApplicationController = async (req, res, next) => {
-  const { projectId , studentId , response  } = req.body;
+  const { responseId , responseStatus  } = req.body;
   try {
-    let response  = await Response.findOne({
-      projectId,
-      studentId,
-      response
-    });
+    let response  = await Response.findById(responseId);
     if(!response) {
       return res.status(400).json({
         message : "Response does not exit"
       })
     }
-    response.responseType = response;
-    let responseData = await response.save();
+    response.responseStatus = responseStatus
+    await response.save();
     res.send({msg : "response updated successfully"})
   } catch (e) {
     console.error(e);
     res.status(500).json({
-      message: "error saving project",
+      message: "error updating project",
     });
   }
 };

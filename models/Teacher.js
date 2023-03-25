@@ -12,7 +12,7 @@ const TeacherSchema = mongoose.Schema({
     ref : schemas.USERS,
     required: true
   },
-  Designation : {
+  designation : {
     type : String ,
     required : true
   },

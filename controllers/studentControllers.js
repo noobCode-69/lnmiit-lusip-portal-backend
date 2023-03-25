@@ -13,15 +13,15 @@ const applyController = async (req, res, next) => {
     }
     response = new Response({
       studentId,
-      projectId
+      projectId : projectId
     });
     let responseData = await response.save();
+    console.log(responseData);
     res.send({msg : "applied successfully"})
   } catch (err) {
     console.log(err.message);
     res.status(500).send("error in applying");
   }
-
 };
 
 module.exports = {

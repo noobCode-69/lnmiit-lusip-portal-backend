@@ -31,7 +31,7 @@ const ProjectSchema = mongoose.Schema({
     required : true 
   },
   validBranch : {
-    type : [String] , 
+    type : String , 
     required : true
   }
 });

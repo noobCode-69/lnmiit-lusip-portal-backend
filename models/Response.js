@@ -6,13 +6,15 @@ const schemas = require("../config/schemas.config");
 const ResponseSchema = mongoose.Schema({
   studentId  : {
     type : mongoose.Schema.Types.ObjectId , 
-    ref : schemas.STUDENTS
+    ref : schemas.STUDENTS,
+    required : true,
   },
-  projectID : {
+  projectId : {
     type : mongoose.Schema.Types.ObjectId,  
-    ref : schemas.PROJECTS
+    ref : schemas.PROJECTS,
+    required : true,
   },
-  responseType : {
+  responseStatus : {
     type : Boolean,
     enum : [true,false],
     required : true,
