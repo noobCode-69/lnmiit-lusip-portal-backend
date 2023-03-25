@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
-
 const schemas = require("../config/schemas.config");
 
+
+
 const ResponseSchema = mongoose.Schema({
-  studentID : {
-    type : mongoose.Schema.Types.ObjectId,  
+  studentId  : {
+    type : mongoose.Schema.Types.ObjectId , 
     ref : schemas.STUDENTS
   },
   projectID : {

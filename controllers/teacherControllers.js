@@ -1,16 +1,77 @@
+const Project = require("../models/Project")
+const Response = require("../models/Response")
+
+
+
 const addProjectController = async (req, res, next) => {
-  const { name } = req.body;
-  res.send({ name, message: "Project added successfully" });
+  const { name, description , teacherId , modeOfExecution , validYear, validBranch , prerequists  } = req.body;
+  try {
+    let project = await Project.findOne({
+      name,
+      teacherId
+    });
+    if(project) {
+      return res.status(400).json({
+        message : "project already exist"
+      })
+    }
+    project = new Project({
+      name, description , teacherId, modeOfExecution , validYear , validBranch
+    });
+    let projectData = await project.save();
+    res.send({msg : "project saved successfully"})
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      message: "error saving project",
+    });
+  }
 };
 
 const deleteProjectController = async (req, res, next) => {
-  const { name } = req.body;
-  res.send({ name, message: "Project deleted successufully" });
+  const { name , projectId} = req.body;
+  try {
+    let project = await Project.findOne({
+      name,
+      projectId
+    });
+    if(!project) {
+      return res.status(400).json({
+        message : "project does not  exist"
+      })
+    }
+    await project.remove();
+    res.send({msg : "project saved successfully"})
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      message: "error deleting project",
+    });
+  }
 };
 
 const reviewApplicationController = async (req, res, next) => {
-  const { review } = req.body;
-  res.send({ review, message: "ok" });
+  const { projectId , studentId , response  } = req.body;
+  try {
+    let response  = await Response.findOne({
+      projectId,
+      studentId,
+      response
+    });
+    if(!response) {
+      return res.status(400).json({
+        message : "Response does not exit"
+      })
+    }
+    response.responseType = response;
+    let responseData = await response.save();
+    res.send({msg : "response updated successfully"})
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      message: "error saving project",
+    });
+  }
 };
 
 module.exports = {

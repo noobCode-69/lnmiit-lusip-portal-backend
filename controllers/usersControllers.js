@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const Student = require("../models/Student");
 
+
+
 const loginController = async (req, res, next) => {
   const { email, password } = req.body;
   try {
@@ -49,15 +51,14 @@ const signupController = async (req, res, next) => {
       branch,
     });
     studentData = await student.save();
-    console.log(userData, studentData);
+    res.send({msg : "signup successfull"})
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Error in Saving");
   }
 };
 
-const logoutController = (req, res) => {
-  // tokens delete
+const logoutController = async (req, res) => {
 };
 
 module.exports = {

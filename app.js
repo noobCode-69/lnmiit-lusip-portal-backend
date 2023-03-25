@@ -3,9 +3,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const InitiateMongoServer = require("./config/db.config")
-
-
-
 const adminRoutes = require("./routes/adminRoute");
 const teacherRoute = require("./routes/teacherRoute");
 const studentRoute = require("./routes/studentRoute");
@@ -31,7 +28,7 @@ app.use(
 );
 
 app.use("/user", usersRoute);
-app.use("/admin", adminRoutes);
+// app.use("/admin", adminRoutes);
 app.use("/teacher", teacherRoute);
 app.use("/student", studentRoute);
 app.use("/general", generalRoute);
