@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const schemas = require("../utils/schemas");
-const years = require("../utils/years")
+const schemas = require("../config/schemas.config");
+const years = require("../config/years.config")
 
 
 
-const TeacherSchema = mongoose.Schema({
+const StudentSchema = mongoose.Schema({
   name : {
     type: String,
     required: true,
@@ -30,4 +30,4 @@ const TeacherSchema = mongoose.Schema({
 
 });
 
-module.exports = mongoose.model("teachers", TeacherSchema);
+module.exports = mongoose.model("students", StudentSchema);

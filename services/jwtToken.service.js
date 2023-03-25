@@ -1,6 +1,5 @@
 const JwtToken = require("../models/JwtToken")
 
-
 async function storeJwtInDb(userId , token , role) {
   const tokenDoc = new JwtToken({
     userId: userId,
