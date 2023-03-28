@@ -7,8 +7,8 @@ const applyController = async (req, res, next) => {
       studentId , projectId
     })
     if(response) {
-      return res.status(400).json({
-        msg : "already applied"
+      return res.status(500).json({
+        message : "Alredy Applied!"
       })
     }
     response = new Response({
@@ -16,12 +16,12 @@ const applyController = async (req, res, next) => {
       projectId : projectId
     });
     let responseData = await response.save();
-    console.log(responseData);
-    res.send({msg : "applied successfully"})
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send("error in applying");
+    res.send({message : "Applied Successfully!"})
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({message : error.message});
   }
+
 };
 
 module.exports = {

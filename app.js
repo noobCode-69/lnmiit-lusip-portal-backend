@@ -13,19 +13,21 @@ const PORT = 3000;
 const app = express();
 app.use(bodyParser.json());
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || origin === "http://example.com") {
-        return callback(null, true);
-      }
-      if (origin === "http://example.com" && this.req.url === "/route1") {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
-    },
-  })
-);
+app.use(cors()) // just for now
+
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin || origin === "http://example.com") {
+//         return callback(null, true);
+//       }
+//       if (origin === "http://example.com" && this.req.url === "/route1") {
+//         return callback(null, true);
+//       }
+//       return callback(new Error("Not allowed by CORS"));
+//     },
+//   })
+// );
 
 app.use("/user", usersRoute);
 // app.use("/admin", adminRoutes);
