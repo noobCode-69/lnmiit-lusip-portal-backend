@@ -8,7 +8,7 @@ const applyController = async (req, res, next) => {
     })
     if(response) {
       return res.status(500).json({
-        message : "Alredy Applied!"
+        message : "Already Applied!"
       })
     }
     response = new Response({

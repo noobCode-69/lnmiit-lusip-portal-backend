@@ -4,6 +4,9 @@ require("dotenv").config();
 
 const router = express.Router();
 
+
+router.post("/getAllProjects" ,  teacherControllers.teacherProjectController);
+
 router.post("/addProject", teacherControllers.addProjectController);
 
 router.post("/deleteProject", teacherControllers.deleteProjectController);

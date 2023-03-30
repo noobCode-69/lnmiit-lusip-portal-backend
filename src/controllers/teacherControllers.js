@@ -2,6 +2,19 @@ const Project = require("../models/Project")
 const Response = require("../models/Response")
 
 
+const teacherProjectController = async (req,res,next) => {
+  const {teacherId} = req.body;
+  try {
+    let projects = await Project.find({teacherId : teacherId});
+    res.send({projects : projects })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error Fetching Data.",
+    });
+  }
+}
+
 const addProjectController = async (req, res, next) => {
   const { name, description , teacherId , modeOfExecution , validYear, validBranch , prerequists  } = req.body;
   try {
@@ -11,23 +24,24 @@ const addProjectController = async (req, res, next) => {
     });
     if(project) {
       return res.status(400).json({
-        message : "project already exist"
+        message : "Project already exist"
       })
     }
     project = new Project({
       name, description , teacherId, modeOfExecution , validYear , validBranch , prerequists
     });
     let projectData = await project.save();
-    res.send({msg : "project saved successfully"})
+    res.send({message : "Project saved successfully"})
   } catch (e) {
     console.error(e);
     res.status(500).json({
-      message: "error saving project",
+      message: "Error saving project",
     });
   }
 };
 
 const deleteProjectController = async (req, res, next) => {
+  // have to write a transation to delete all the responses related to it as well
   const {  projectId} = req.body;
   try {
     let project = await Project.findById(projectId);
@@ -71,4 +85,5 @@ module.exports = {
   addProjectController,
   deleteProjectController,
   reviewApplicationController,
+  teacherProjectController
 };

@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get("/getAllProjects", generalControllers.getAllProjectsController);
 
-router.get("/getAllResponse", generalControllers.getAllResponseController);
+router.post("/getAllResponse", generalControllers.getAllResponseController);
 
 module.exports = router;

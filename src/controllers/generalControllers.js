@@ -22,9 +22,11 @@ const getAllProjectsController = async (req, res, next) => {
   }
 };
 
+
+
 const getAllResponseController = async (req, res, next) => {
+  const {projectId} = req.body;
   try {
-    const {projectId} = req.body;
     let responses = await Response.find({projectId}).populate("studentId").lean();
     responses = responses.map(response => {
       return {
@@ -33,11 +35,10 @@ const getAllResponseController = async (req, res, next) => {
         studentId: undefined
       };
     });
-
     res.send({responses})
   } catch (err) {
     console.log(err.message);
-    res.status(500).send("error fetching data");
+    res.status(500).send("Error fetching data...");
   }
 };
 
