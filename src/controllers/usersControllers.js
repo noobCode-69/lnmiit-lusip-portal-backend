@@ -1,5 +1,8 @@
 const User = require("../models/User");
 const Student = require("../models/Student");
+const Session = require("../models/Session")
+const crypto = require("crypto")
+
 
 
 
@@ -15,7 +18,21 @@ const loginController = async (req, res, next) => {
         message: "Wrong Credentials",
       });
     }
-    res.send({message : "Login Successfully"})
+    const sessionToken = crypto.randomBytes(16).toString('base64')
+    const {_id : userId,  role , name} = user;
+    let session = Session.findOne({email});
+    if(session){
+      await Session.deleteOne({email})
+    }
+    session = new Session({
+      userId : userId,
+      name : name,
+      role : role,
+      token : sessionToken,
+      email : email
+    })
+    const sessionData = await session.save();
+    res.send({sessionData : sessionData , message : "Login Successfully"})
   } catch (e) {
     console.error(e);
     res.status(500).json({
@@ -39,6 +56,7 @@ const signupController = async (req, res, next) => {
       });
     }
     user = new User({
+      name , 
       email,
       password,
     });
@@ -56,6 +74,9 @@ const signupController = async (req, res, next) => {
     res.status(500).send({message : "Error in Saving"});
   }
 };
+
+
+
 
 const logoutController = async (req, res) => {
 };

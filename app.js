@@ -3,18 +3,17 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const InitiateMongoServer = require("./src/config/db.config")
-const adminRoutes = require("./src/routes/adminRoute");
 const teacherRoute = require("./src/routes/teacherRoute");
 const studentRoute = require("./src/routes/studentRoute");
 const usersRoute = require("./src/routes/usersRoute");
 const generalRoute = require("./src/routes/generalRoute");
-
+const sessionRoute = require('./src/routes/sessionRoute.js')
 const PORT = 3000;
 const app = express();
 app.use(bodyParser.json());
 
 app.use(cors()) // just for now
-
+// actually we have to do this 
 // app.use(
 //   cors({
 //     origin: function (origin, callback) {
@@ -30,10 +29,11 @@ app.use(cors()) // just for now
 // );
 
 app.use("/user", usersRoute);
-// app.use("/admin", adminRoutes);
 app.use("/teacher", teacherRoute);
 app.use("/student", studentRoute);
 app.use("/general", generalRoute);
+app.use('/session' , sessionRoute);
+
 
 app.use(function (err, req, res, next) {
   res.send(err);
