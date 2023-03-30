@@ -5,17 +5,17 @@ const Student = require("../models/Student");
 
 const loginController = async (req, res, next) => {
   const { email, password } = req.body;
-  try {
+    try {
     let user = await User.findOne({
       email,
       password,
     });
     if (!user) {
-      return res.status(400).json({
+      return res.status(500).json({
         message: "Wrong Credentials",
       });
     }
-    res.send({email , password })
+    res.send({message : "Login Successfully"})
   } catch (e) {
     console.error(e);
     res.status(500).json({
@@ -34,8 +34,8 @@ const signupController = async (req, res, next) => {
       email,
     });
     if (user) {
-      return res.status(400).json({
-        msg: "User Already Exists",
+      return res.status(500).json({
+        message: "User Already Exists",
       });
     }
     user = new User({
@@ -51,10 +51,9 @@ const signupController = async (req, res, next) => {
       branch,
     });
     studentData = await student.save();
-    res.send({msg : "signup successfull"})
+    res.send({message : "User Created Successfully"})
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Error in Saving");
+    res.status(500).send({message : "Error in Saving"});
   }
 };
 
