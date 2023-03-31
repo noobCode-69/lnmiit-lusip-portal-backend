@@ -1,7 +1,9 @@
 const Session = require("../models/Session");
 
+
+
 const getSessionDetails = async (req, res, next) => {
-  const { token } = req.body;
+  const token = req.cookies['session']
   try {
     let response = await Session.findOne({
       token,
@@ -17,5 +19,6 @@ const getSessionDetails = async (req, res, next) => {
   }
 };
 
+
+
 module.exports = { getSessionDetails };
-  

@@ -1,19 +1,21 @@
 const express = require("express");
 const teacherControllers = require("../controllers/teacherControllers");
-require("dotenv").config();
-
 const router = express.Router();
+const isTeacher = require('../middlewares/isTeacher')
 
 
-router.post("/getAllProjects" ,  teacherControllers.teacherProjectController);
+router.post("/getAllProjects" ,isTeacher , teacherControllers.teacherProjectController);
 
-router.post("/addProject", teacherControllers.addProjectController);
+router.post("/addProject", isTeacher ,teacherControllers.addProjectController);
 
-router.post("/deleteProject", teacherControllers.deleteProjectController);
+router.post("/deleteProject", isTeacher,teacherControllers.deleteProjectController);
 
 router.post(
   "/reviewApplication",
+  isTeacher,
   teacherControllers.reviewApplicationController
 );
+
+
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 const cors = require("cors");
 require("dotenv").config();
 const InitiateMongoServer = require("./src/config/db.config")
@@ -11,22 +12,17 @@ const sessionRoute = require('./src/routes/sessionRoute.js')
 const PORT = 3000;
 const app = express();
 app.use(bodyParser.json());
+app.use(cookieParser());
 
-app.use(cors()) // just for now
-// actually we have to do this 
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       if (!origin || origin === "http://example.com") {
-//         return callback(null, true);
-//       }
-//       if (origin === "http://example.com" && this.req.url === "/route1") {
-//         return callback(null, true);
-//       }
-//       return callback(new Error("Not allowed by CORS"));
-//     },
-//   })
-// );
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
+
 
 app.use("/user", usersRoute);
 app.use("/teacher", teacherRoute);
