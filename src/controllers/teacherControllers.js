@@ -8,12 +8,12 @@ const teacherProjectController = async (req,res,next) => {
     let projects = await Project.find({teacherId : teacherId});
     res.send({projects : projects })
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       message: "Error Fetching Data.",
     });
   }
 }
+
 
 const addProjectController = async (req, res, next) => {
   const { name, description , teacherId , modeOfExecution , validYear, validBranch , prerequists  } = req.body;
@@ -33,7 +33,6 @@ const addProjectController = async (req, res, next) => {
     let projectData = await project.save();
     res.send({message : "Project saved successfully"})
   } catch (e) {
-    console.error(e);
     res.status(500).json({
       message: "Error saving project",
     });
@@ -53,7 +52,6 @@ const deleteProjectController = async (req, res, next) => {
     await project.deleteOne();
     res.send({msg : "project saved successfully"})
   } catch (e) {
-    console.error(e);
     res.status(500).json({
       message: "error deleting project",
     });
@@ -71,10 +69,8 @@ const reviewApplicationController = async (req, res, next) => {
     }
     response.responseStatus = responseStatus
     await response.save();
-    console.log(response);
     res.send({msg : "response updated successfully"})
   } catch (e) {
-    console.error(e);
     res.status(500).json({
       message: "error updating project",
     });

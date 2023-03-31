@@ -1,7 +1,10 @@
 const User = require("../models/User");
 const Student = require("../models/Student");
+const Teacher = require('../models/Teacher')
+const Admin = require('../models/Admin')
 const Session = require("../models/Session")
 const crypto = require("crypto")
+const roles = require('../config/roles.config')
 const { validationResult } = require("express-validator");
 
 
@@ -19,12 +22,31 @@ const loginController = async (req, res, next) => {
         message: "Wrong Credentials",
       });
     }
+
+    let typeId;
+
+    if(user.role == roles.STUDENT) {
+      const student = await Student.findOne({userId : user._id})
+      typeId = student._id
+    }
+    else if(user.role == roles.ADMIN){
+      const admin = await Admin.findOne({userId : user._id})
+      typeId = admin._id
+
+    }
+    else if(user.role == roles.TEACHER){
+      const teacher = await Teacher.findOne({userId : user._id})
+      typeId = teacher._id
+
+    }
+
     const sessionToken = crypto.randomBytes(16).toString('base64')
     const {_id : userId,  role , name} = user;
     let session = Session.findOne({email});
     if(session){
       await Session.deleteOne({email})
     }
+
     session = new Session({
       userId : userId,
       name : name,
@@ -38,7 +60,7 @@ const loginController = async (req, res, next) => {
       secure : true,
       maxAge : 432000000 // 5days
     });
-    res.send({sessionData : {name , email , role , userId} ,  message : "Login Successfully"})
+    res.send({sessionData : {name , typeId , email , role , userId} ,  message : "Login Successfully"})
   } catch (e) {
     res.status(500).json({
       message: "Server Error",
@@ -101,7 +123,7 @@ const signupController = async (req, res, next) => {
 
 const logoutController = async (req, res , next) => {
   const { token } = req.body;
-  console.log(token);
+  // console.log(token);
   try {
     const session = await Session.findOneAndDelete({
       token

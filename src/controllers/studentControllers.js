@@ -18,7 +18,6 @@ const applyController = async (req, res, next) => {
     let responseData = await response.save();
     res.send({message : "Applied Successfully!"})
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({message : error.message});
   }
 

@@ -8,6 +8,7 @@ const Teacher = require("../models/Teacher")
 const getAllProjectsController = async (req, res, next) => {
   try {
     let projects = await Projects.find({}).populate("teacherId").lean();
+    console.log({projects})
     projects = projects.map(projects => {
       return {
         ...projects,
@@ -17,7 +18,6 @@ const getAllProjectsController = async (req, res, next) => {
     });
     res.send({projects})
   } catch (err) {
-    console.log(err.message);
     res.status(500).send({message : "Error Fetching Data..."});
   }
 };
@@ -37,7 +37,6 @@ const getAllResponseController = async (req, res, next) => {
     });
     res.send({responses})
   } catch (err) {
-    console.log(err.message);
     res.status(500).send("Error fetching data...");
   }
 };
