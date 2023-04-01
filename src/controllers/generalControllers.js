@@ -6,6 +6,7 @@ const Teacher = require("../models/Teacher")
 
 
 const getAllProjectsController = async (req, res, next) => {
+  
   try {
     let projects = await Projects.find({}).populate("teacherId").lean();
     console.log({projects})
