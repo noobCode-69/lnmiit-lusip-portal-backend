@@ -6,6 +6,7 @@ require("dotenv").config();
 const InitiateMongoServer = require("./src/config/db.config")
 const teacherRoute = require("./src/routes/teacherRoute");
 const studentRoute = require("./src/routes/studentRoute");
+const adminRoute = require("./src/routes/adminRoute")
 const usersRoute = require("./src/routes/usersRoute");
 const generalRoute = require("./src/routes/generalRoute");
 const sessionRoute = require('./src/routes/sessionRoute.js')
@@ -29,7 +30,7 @@ app.use("/teacher", teacherRoute);
 app.use("/student", studentRoute);
 app.use("/general", generalRoute);
 app.use('/session' , sessionRoute);
-
+app.use("/admin", adminRoute)
 
 app.use(function (err, req, res, next) {
   res.send(err);

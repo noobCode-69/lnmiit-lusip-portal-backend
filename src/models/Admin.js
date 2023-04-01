@@ -11,6 +11,10 @@ const AdminSchema = mongoose.Schema({
     type : mongoose.Schema.Types.ObjectId,
     ref : schemas.USERS,
     required : true,
+  },
+  registrationStatus : {
+    type : Boolean,
+    required: true,
   }
 });
 
