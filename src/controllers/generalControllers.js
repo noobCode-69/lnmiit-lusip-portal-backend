@@ -2,7 +2,7 @@
 const Projects = require("../models/Project")
 const Response = require("../models/Response")
 const Teacher = require("../models/Teacher")
-
+const Admin = require("../models/Admin")
 
 
 const getAllProjectsController = async (req, res, next) => {
@@ -42,8 +42,26 @@ const getAllResponseController = async (req, res, next) => {
   }
 };
 
+
+
+const getRegistrationStatus = async (req, res, next) => {
+  try {
+    let admin = await Admin.findOne({});
+    if (!admin) {
+      res.status(500).send({ message: "No admin found!" });
+    }
+    const status = admin.registrationStatus;
+    res.send({ status: status });
+  } catch (err) {
+    res.status(500).send({ message: "Error Fetching Data..." });
+  }
+};
+
+
+
 module.exports = {
   getAllProjectsController,
   getAllResponseController,
+  getRegistrationStatus
 };
 
