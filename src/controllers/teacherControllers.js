@@ -40,17 +40,17 @@ const addProjectController = async (req, res, next) => {
 };
 
 const deleteProjectController = async (req, res, next) => {
-  // have to write a transation to delete all the responses related to it as well
   const {  projectId} = req.body;
   try {
     let project = await Project.findById(projectId);
     if(!project) {
-      return res.status(400).json({
-        message : "project does not  exist"
+      return res.status(500).json({
+        message : "Project does not  exist"
       })
     }
     await project.deleteOne();
-    res.send({msg : "project saved successfully"})
+    await Response.deleteMany({projectId : projectId});
+    res.send({message : "Project deleted Successfully"})
   } catch (e) {
     res.status(500).json({
       message: "error deleting project",
@@ -59,20 +59,20 @@ const deleteProjectController = async (req, res, next) => {
 };
 
 const reviewApplicationController = async (req, res, next) => {
-  const { responseId , responseStatus  } = req.body;
+  const { responseId  } = req.body;
   try {
     let response  = await Response.findById(responseId);
     if(!response) {
-      return res.status(400).json({
+      return res.status(500).json({
         message : "Response does not exit"
       })
     }
-    response.responseStatus = responseStatus
+    response.responseStatus = !response.responseStatus
     await response.save();
-    res.send({msg : "response updated successfully"})
+    res.send({message : "Response updated successfully"})
   } catch (e) {
     res.status(500).json({
-      message: "error updating project",
+      message: "Error updating project",
     });
   }
 };
