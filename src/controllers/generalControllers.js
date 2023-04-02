@@ -9,7 +9,6 @@ const getAllProjectsController = async (req, res, next) => {
   
   try {
     let projects = await Projects.find({}).populate("teacherId").lean();
-    console.log({projects})
     projects = projects.map(projects => {
       return {
         ...projects,
@@ -57,11 +56,81 @@ const getRegistrationStatus = async (req, res, next) => {
   }
 };
 
+const getReport = async (req, res, next) => {
+  try {
+    let responses = await Response.find({})
+      .populate("studentId")
+      .populate({
+        path: "projectId",
+        populate: {
+          path: "teacherId"
+        }
+      })
+      .lean();
+
+
+    responses = responses.map((response) => {
+      return {
+        ...response,
+        studentDetails: response.studentId,
+        projectDetails : response.projectId,
+        studentId: undefined,
+        projectId: undefined,
+      };
+    });
+
+    responses = responses.map(item => {
+      const { teacherId, ...rest } = item.projectDetails;
+      return {
+        ...item,
+        projectDetails: {
+          ...rest,
+          teacherId: null,
+          teacherDetails: teacherId
+        }
+      };
+    });
+    res.send({ responses : responses});
+  } catch (err) {
+    res.status(500).send({ message: "Error Fetching Data..." });
+  }
+};
 
 
 module.exports = {
   getAllProjectsController,
   getAllResponseController,
-  getRegistrationStatus
+  getRegistrationStatus,
+  getReport
 };
 
+
+// [
+//   {
+//     _id: new ObjectId("6427fa98265d26f260c21615"),
+//     studentId: undefined,
+//     projectId: undefined,
+//     responseStatus: true,
+//     __v: 0,
+//     studentDetails: {
+//       _id: new ObjectId("641f662097492f2d41169682"),
+//       name: 'sohel',
+//       userId: new ObjectId("641f662097492f2d41169680"),
+//       college: 'LNM',
+//       year: '1st Year',
+//       branch: 'CSE',
+//       __v: 0
+//     },
+//     projectDetails: {
+//       _id: new ObjectId("6427fa7e265d26f260c21600"),
+//       name: 'Project1',
+//       description: 'Project1 description',
+//       teacherId: new ObjectId("641f67c6d603e773091bc362"),
+//       modeOfExecution: 'Offline',
+//       prerequists: 'None',
+//       validYear: [Array],
+//       validBranch: 'CSE',
+//       __v: 0
+//     }
+//   }
+// ]
