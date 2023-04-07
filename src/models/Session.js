@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const roles = require("../config/roles.config")
-
+const schemas = require('../config/schemas.config')
 
 const Session = mongoose.Schema({
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref : schemas.USERS , 
     required: true,
   },
   token: {

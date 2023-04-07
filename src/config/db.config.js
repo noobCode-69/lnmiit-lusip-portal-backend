@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
 const MONGOURI =
   "mongodb+srv://so_hell:t17UiXMq93Zf81z8@cluster0.gsmjilp.mongodb.net/?retryWrites=true&w=majority";
 

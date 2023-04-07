@@ -123,7 +123,6 @@ const signupController = async (req, res, next) => {
 
 const logoutController = async (req, res , next) => {
   const { token } = req.body;
-  // console.log(token);
   try {
     const session = await Session.findOneAndDelete({
       token
