@@ -22,9 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", (req, res, next) => {
-  res.json({ message: "HELLO" });
-});
+
 
 app.use("/api/user", usersRoute);
 app.use("/api/teacher", teacherRoute);
