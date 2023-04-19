@@ -22,13 +22,16 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/", (req, res, next) => {
+  res.json({ message: "HELLO" });
+});
+
 app.use("/api/user", usersRoute);
 app.use("/api/teacher", teacherRoute);
 app.use("/api/student", studentRoute);
 app.use("/api/general", generalRoute);
 app.use("/api/session", sessionRoute);
 app.use("/api/admin", adminRoute);
-
 
 app.use(function (err, req, res, next) {
   res.send(err);
