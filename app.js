@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
@@ -23,8 +22,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static(path.join(__dirname,  "dist")));
-
 app.use("/api/user", usersRoute);
 app.use("/api/teacher", teacherRoute);
 app.use("/api/student", studentRoute);
@@ -32,11 +29,6 @@ app.use("/api/general", generalRoute);
 app.use("/api/session", sessionRoute);
 app.use("/api/admin", adminRoute);
 
-app.get("*", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "dist", "index.html")
-  );
-});
 
 app.use(function (err, req, res, next) {
   res.send(err);
