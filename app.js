@@ -23,7 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static(path.join(__dirname, "..", "lusip_frontend", "dist")));
+app.use(express.static(path.join(__dirname,  "dist")));
 
 app.use("/api/user", usersRoute);
 app.use("/api/teacher", teacherRoute);
@@ -34,7 +34,7 @@ app.use("/api/admin", adminRoute);
 
 app.get("*", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "..", "lusip_frontend", "dist", "index.html")
+    path.join(__dirname, "dist", "index.html")
   );
 });
 
