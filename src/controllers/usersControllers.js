@@ -1,18 +1,15 @@
 const User = require("../models/User");
 const Student = require("../models/Student");
-const Teacher = require('../models/Teacher')
-const Admin = require('../models/Admin')
-const Session = require("../models/Session")
-const crypto = require("crypto")
-const roles = require('../config/roles.config')
+const Teacher = require("../models/Teacher");
+const Admin = require("../models/Admin");
+const Session = require("../models/Session");
+const crypto = require("crypto");
+const roles = require("../config/roles.config");
 const { validationResult } = require("express-validator");
-
-
-
 
 const loginController = async (req, res, next) => {
   const { email, password } = req.body;
-    try {
+  try {
     let user = await User.findOne({
       email,
       password,
@@ -26,41 +23,41 @@ const loginController = async (req, res, next) => {
 
     let typeId;
 
-    if(user.role == roles.STUDENT) {
-      const student = await Student.findOne({userId : user._id})
-      typeId = student._id
-    }
-    else if(user.role == roles.ADMIN){
-      const admin = await Admin.findOne({userId : user._id})
-      typeId = admin._id
-
-    }
-    else if(user.role == roles.TEACHER){
-      const teacher = await Teacher.findOne({userId : user._id})
-      typeId = teacher._id
-
+    if (user.role == roles.STUDENT) {
+      const student = await Student.findOne({ userId: user._id });
+      typeId = student._id;
+    } else if (user.role == roles.ADMIN) {
+      const admin = await Admin.findOne({ userId: user._id });
+      typeId = admin._id;
+    } else if (user.role == roles.TEACHER) {
+      const teacher = await Teacher.findOne({ userId: user._id });
+      typeId = teacher._id;
     }
 
-    const sessionToken = crypto.randomBytes(16).toString('base64')
-    const {_id : userId,  role , name} = user;
-    let session = Session.findOne({email});
-    if(session){
-      await Session.deleteOne({email})
+    const sessionToken = crypto.randomBytes(16).toString("base64");
+    const { _id: userId, role, name } = user;
+    let session = Session.findOne({ email });
+    if (session) {
+      await Session.deleteOne({ email });
     }
     session = new Session({
-      userId : userId,
-      name : name,
-      role : role,
-      token : sessionToken,
-      email : email
-    })
-    const sessionData = await session.save();
-    res.cookie('session' , sessionToken , {
-      httpOnly : true,
-      secure : true,
-      maxAge : 432000000 
+      userId: userId,
+      name: name,
+      role: role,
+      token: sessionToken,
+      email: email,
     });
-    res.send({sessionData : {name , typeId , email , role , userId} ,  message : "Login Successfully"})
+    const sessionData = await session.save();
+    res.cookie("session", sessionToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 432000000,
+      sameSite: "none",
+    });
+    res.send({
+      sessionData: { name, typeId, email, role, userId },
+      message: "Login Successfully",
+    });
   } catch (e) {
     res.status(500).json({
       message: "Server Error",
@@ -68,24 +65,18 @@ const loginController = async (req, res, next) => {
   }
 };
 
-
-
 const signupController = async (req, res, next) => {
+  const errors = validationResult(req);
 
-  const errors = validationResult(req)
-
-  if(!errors.isEmpty()){
-    let  errorString = ""
-    const {errors : errorsObj } = errors;
-    for(let i = 0; i < errorsObj.length ; ++i){
-      errorString += " " +  errorsObj[i].msg + " ,";
+  if (!errors.isEmpty()) {
+    let errorString = "";
+    const { errors: errorsObj } = errors;
+    for (let i = 0; i < errorsObj.length; ++i) {
+      errorString += " " + errorsObj[i].msg + " ,";
     }
     errorString = errorString.slice(0, -1);
-    return res.status(500).send({message : errorString});
+    return res.status(500).send({ message: errorString });
   }
-
-
-
 
   const { email, password, name, college, year, branch } = req.body;
   try {
@@ -99,7 +90,7 @@ const signupController = async (req, res, next) => {
       });
     }
     user = new User({
-      name , 
+      name,
       email,
       password,
     });
@@ -112,26 +103,22 @@ const signupController = async (req, res, next) => {
       branch,
     });
     studentData = await student.save();
-    res.send({message : "User Created Successfully"})
+    res.send({ message: "User Created Successfully" });
   } catch (err) {
-    res.status(500).send({message : "Error in Saving"});
+    res.status(500).send({ message: "Error in Saving" });
   }
 };
 
-
-
-
-const logoutController = async (req, res , next) => {
+const logoutController = async (req, res, next) => {
   const { token } = req.body;
   try {
     const session = await Session.findOneAndDelete({
-      token
+      token,
     });
-    res.send({message : "Logged Out Successfully"})
+    res.send({ message: "Logged Out Successfully" });
   } catch (err) {
-    res.status(500).send({message : "Error in Logging Out"});
+    res.status(500).send({ message: "Error in Logging Out" });
   }
-
 };
 
 module.exports = {
