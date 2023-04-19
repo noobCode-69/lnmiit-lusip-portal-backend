@@ -17,6 +17,7 @@ const loginController = async (req, res, next) => {
       email,
       password,
     });
+
     if (!user) {
       return res.status(500).json({
         message: "Wrong Credentials",
@@ -46,7 +47,6 @@ const loginController = async (req, res, next) => {
     if(session){
       await Session.deleteOne({email})
     }
-
     session = new Session({
       userId : userId,
       name : name,
@@ -58,7 +58,7 @@ const loginController = async (req, res, next) => {
     res.cookie('session' , sessionToken , {
       httpOnly : true,
       secure : true,
-      maxAge : 432000000 // 5days
+      maxAge : 432000000 
     });
     res.send({sessionData : {name , typeId , email , role , userId} ,  message : "Login Successfully"})
   } catch (e) {

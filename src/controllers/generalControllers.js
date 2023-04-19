@@ -1,7 +1,6 @@
 
 const Projects = require("../models/Project")
 const Response = require("../models/Response")
-const Teacher = require("../models/Teacher")
 const Admin = require("../models/Admin")
 
 
@@ -68,7 +67,6 @@ const getReport = async (req, res, next) => {
       })
       .lean();
 
-
     responses = responses.map((response) => {
       return {
         ...response,
@@ -104,33 +102,3 @@ module.exports = {
   getReport
 };
 
-
-// [
-//   {
-//     _id: new ObjectId("6427fa98265d26f260c21615"),
-//     studentId: undefined,
-//     projectId: undefined,
-//     responseStatus: true,
-//     __v: 0,
-//     studentDetails: {
-//       _id: new ObjectId("641f662097492f2d41169682"),
-//       name: 'sohel',
-//       userId: new ObjectId("641f662097492f2d41169680"),
-//       college: 'LNM',
-//       year: '1st Year',
-//       branch: 'CSE',
-//       __v: 0
-//     },
-//     projectDetails: {
-//       _id: new ObjectId("6427fa7e265d26f260c21600"),
-//       name: 'Project1',
-//       description: 'Project1 description',
-//       teacherId: new ObjectId("641f67c6d603e773091bc362"),
-//       modeOfExecution: 'Offline',
-//       prerequists: 'None',
-//       validYear: [Array],
-//       validBranch: 'CSE',
-//       __v: 0
-//     }
-//   }
-// ]
